@@ -1,0 +1,13 @@
+digraph ex_inst {
+        rankdir=LR;
+        size="8,5"
+        node [shape = circle];
+        node [label = "\theta_{I}"] tINI;
+        node [label = "\theta_{F}"] tEND;
+        node [label = "\theta_{1,1}"] t11;
+        node [label = "\theta_{1,2}"] t12;
+        node [label = "\theta_{2,1}"] t21;
+        node [label = "\theta_{2,2}"] t22;
+        tINI -> t11 [label = "0"];
+        tINI -> t12 [label = "0"];
+}

@@ -9,11 +9,48 @@
 \begin{footnotesize}
 \textit{joapuipe@upv.es}
 \end{footnotesize}}
-\title{A Genetic Algorithm for Job Scheduling Problem}
+\title{A Genetic Algorithm for the Job-Shop Scheduling Problem}
 \begin{document}
 \maketitle
 \section{Introduction}
+The job-shop scheduling problem (JSP) consists on a given set of $n$ jobs to perform $\mathcal{J} = \{J_1, \ldots, J_n\}$. Each job $j$ is composed by $t$ tasks $\mathcal{T}_j = <\theta_{j,1}, \ldots, \theta_{j,t}>$ ($1 \leq j \leq n$), each of them with an associated duration $D_{j,k}$ ($1 \leq j \leq n$, $1 \leq k \leq t$). Each task $\theta_{j,k}$ needs also an specific resource $r_{j,k} \in \mathcal{R}$ from the set of $m$ resources $\mathcal{R} = \{R_1, \ldots, R_m\}$, $(1 \leq j \leq n, 1 \leq k \leq t)$. The objective is to schedule the start time $S_{j,k}$ of each task $\theta_{j,k}$ subject to the restrictions that all the previous tasks $\theta_{j,k'}$ within a job $j$ have been completed and no two tasks are assigned to the same machine at the same period of time. This two restrictions can be formally specified as:
+
+\begin{eqnarray}
+S_{j,k} \geq S_{j,k-1} + D_{j,k-1} : 1 \leq j \leq n, 2 \leq k \leq t \label{eq:consecutive_tasks} \\
+r_{j,k} \neq r_{j,k'} \vee S_{j,k} \notin  [S_{j,k'}, S_{j,k'} + D_{j,k'}] : 1 \leq j \leq n, 1 \leq k,k' \leq t, k \neq k' \label{eq:single_core_machines}
+\end{eqnarray}
+
+These two restrictions, as stated in the previous equations, imply an additional restriction: once a task starts, it cannot be preempted by any other task.\\
+
+It has been proven that this problem is an NP-Hard problem that can be reduced to finding the minimum cost Hamiltonian path in a directed graph with weighted edges (a disjunctive graph)\cite{lenstra1977complexity,lenstra1979computational,blazewicz2000disjunctive}. Because of the complexity of the problem, exact solutions for big instances cannot be computed in a reasonable amount of time. Different approximate solutions based on branch and bound\cite{carlier1989algorithm}, simulated annealing\cite{van1992job}, genetic algorithms\cite{davis1985job}, and other techniques have been explored in the literature. Here we present a genetic algorithm (GA) that is able to produce reasonable solutions with a polynomial time complexity.
+
 \section{Genetic Algorithm}
+Genetic Algorithms are iterative algorithms that encode a solution for a given problem as an individual of a fixed-size population. At any given iteration, two or more individuals (solutions) are combined to create new individuals (this is called a crossover). Individuals may also be modified with random modifications of the encoded solution (mutations). The key process here is that individuals are combined and modified randomly and all of them are evaluated using a fitness function that has to be minimized (or maximized, depending on the problem). Then, only the best individuals from each iteration will survive to the next iteration (additionally, some ``bad'' solutions may survive which sometimes helps to avoid local optima).\\
+
+Thus, in order to solve any optimization problem using GAs one must define how the solutions are encoded as individuals of the population, which fitness function has to be optimized, and how they are combined (crossover operation) and mutated (mutation operation) to create new individuals.
+
+\subsection{Solution encoding}
+A solution for a JSP instance can be represented as a direct acyclic graph (DAG) where each node represents a task and edges represent dependencies among tasks (the within-job task ordering and the resources dependencies). Then, the timespan is given by the longest path from the start node to the end node. The start node is defined as a dummy task called $\theta_0$ which takes 0 time steps and has an outgoing edge to the first task of each job $\theta_{j,1}, 1 \leq j \leq n$. The target node $\theta_F$ has incoming edges from the final task of each job $\theta_{j,t}, 1 \leq j \leq n$ and takes also 0 time steps to complete.\\
+
+We use a typical representation for the JSP which encodes the restriction stated in equation \ref{eq:consecutive_tasks} implicitly (tasks within a job must be completed sequentially). The individuals (or chromosomes) of the GA do not actually encode a full solution (the start times of each work), but this can be extracted from the encoding. Each individual encodes only the job identifier of each task and encodes a topological ordering of the DAG solution.\\
+
+For instance, suppose the following instance of the JSP.
+\begin{table}
+\begin{tabular}{|c|c|c|c|c|}
+\hline 
+& $\theta_{1,1}$ & $\theta_{1,2}$ & $\theta_{2,1}$ & $\theta_{2,2}$ \\
+\hline
+$r_{i,j}$ & 1 & 2 & 2 & 1 \\
+$D_{i,j}$ & 3 & 2 & 5 & 1 \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Fitness function}
+
 \section{Experiments}
 \section{Conclusions}
+
+\bibliographystyle{abbrv}
+\bibliography{jsp-ga}
 \end{document}
