@@ -1,0 +1,13 @@
+Small Instances
+All instances have 3 jobs are characterized by the number of machines (m), the
+maximum number of tasks per job (vmax ) and the range of processing times (pi ).
+A set of instances was generated combining three values of each parameter: m = 3, 5, 7;
+vmax = 5, 7, 10 and pi = [1, 10], [1, 50], [1, 100]. In all cases, 10 instances
+were considered from each combination. The sets of instances are identified by the tuple: < m_vmax _pi >.
+
+Large Instances
+All instances have 3 jobs and 3 machines are characterized the maximum number of tasks 
+per job (vmax ) and the range of processing times (pi ).
+A set of instances was generated combining three values of each parameter: 
+vmax = 20, 25, 30 and pi = [1, 50], [1, 100], [1, 200]. In all cases, 10 instances
+were considered from each combination. The sets of instances are identified by the tuple: < m_vmax _pi >.
