@@ -1,13 +1,26 @@
-digraph ex_inst {
+digraph example_instance {
         rankdir=LR;
-        size="8,5"
-        node [shape = circle];
-        node [label = "\theta_{I}"] tINI;
-        node [label = "\theta_{F}"] tEND;
-        node [label = "\theta_{1,1}"] t11;
-        node [label = "\theta_{1,2}"] t12;
-        node [label = "\theta_{2,1}"] t21;
-        node [label = "\theta_{2,2}"] t22;
-        tINI -> t11 [label = "0"];
-        tINI -> t12 [label = "0"];
+
+        node [style = solid, shape = circle, fixedsize = true, size=3];
+        node [texlbl = "$\theta_{I}$"] tINI;
+        node [texlbl = "$\theta_{F}$"] tEND;
+        node [texlbl = "$\theta_{1,1}$"] t11;
+        node [texlbl = "$\theta_{1,2}$"] t12;
+        node [texlbl = "$\theta_{2,1}$"] t21;
+        node [texlbl = "$\theta_{2,2}$"] t22;
+
+        tINI -> t11;
+        tINI -> t21;
+
+	t11 -> t12;
+        t21 -> t22;
+
+        t12 -> tEND;
+        t22 -> tEND;
+
+	t11 -> t22;
+	t22 -> t11;
+	
+	t12 -> t21;
+	t21 -> t12;
 }
