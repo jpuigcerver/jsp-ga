@@ -167,7 +167,26 @@ $P_m$ & 0.1\\
 \label{tab:optimal_params}
 \end{table}
 
+Table \ref{tab:final_results} reports the results achieved using the previous configuration on the small and large instances.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+Instances & $T_{ref} - T_{GA}$ & $P(T_{GA} > T_{ref})$\\
+\hline
+Small & $-0.1122 \pm 0.0420$ & 0.0233\\ 
+Large & & \\
+\hline
+\end{tabular}
+\caption{Final results for the small and large instances.}
+\label{tab:final_results}
+\end{table}
+
 \section{Conclusions}
+We presented a simple and competitive genetic algorithm for the job-shop scheduling problem. The presented algorithm have shown to be slightly worse than the reference solutions that were provided, but this comparison is not fair since we don't know which parameters the reference solution used to control the amount of time invested in finding a solution.\\
+
+The algorithm can be improved in several ways. As we explained before, the way we encode the solutions as individuals of the population (a topological ordering of the DAG) makes that multiple individuals of the population could represent the same solution (different topological orderings are possible for a given DAG). Also, we did not look too much at the speed factor. We used Python to program our solution, which is not the best option if one is focused on the speed. Several improvement can be done also on the implementation of some operations (crossover) and the construction of the DAG to compute the fitness function, apart from writing the genetic algorithm in compiled programming language.
 
 \bibliographystyle{abbrv}
 \bibliography{jsp-ga}
