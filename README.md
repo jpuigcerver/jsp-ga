@@ -14,7 +14,7 @@ The program usage is straightforward:
 $ python jsp.py jsp-instance.txt
 ```
 
-The program will output the timespan of the best solution and the chromosome representation of the solution (a topological sort of the tasks).
+The program will output the timespan of the best solution and the start time of each task (presented as a list of lists of integers).
 
 jsp-ga has some options that can be configured to tune the performance / speed of the genetic algorithm.
 

@@ -2,13 +2,14 @@
 set -e
 export LC_NUMERIC=C
 
-IDIR=Instances/S
-REFS=Small_Results_Reference.txt
+IDIR=instances/S
+REFS=instances/Small_Results_Reference.txt
 REPS=10
 PS=50
 IT=1000
 CP=1.0
 MP=0.05
+PYTHON=/Applications/pypy/bin/pypy
 
 function usage () {
     cat <<EOF
@@ -78,7 +79,7 @@ for f in ${FILES[@]}; do
     nbest=0;nequa=0;nwors=0;
     min_ts=1000000000000;
     for r in `seq 1 $REPS`; do
-	out=`python jsp.py -s $RANDOM -i $IT -p $PS -c $CP -m $MP $f`
+	out=`$PYTHON jsp.py -s $RANDOM -i $IT -p $PS -c $CP -m $MP $f`
 	[ $? -ne 0 ] && { exit 1; }
 	ts=`echo "$out" | awk '{print $1}'`
 	diff=`echo "$ref_ts - $ts" | bc -l`
