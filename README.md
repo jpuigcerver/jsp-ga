@@ -1,7 +1,7 @@
 jsp-ga
 ======
 
-Job-shop Scheduling Problem using Genetic Algorithms
+Job-shop Scheduling Problem using Genetic Algorithms.
 
 Author: Joan Puigcerver i Pérez (joapuipe@upv.es)
 
@@ -28,3 +28,5 @@ Options:
   -c <crossover-prob> Crossover probability. Default: 1.000000
   -m <mutation-prob>  Mutation probability. Default: 0.100000
 ```
+
+If you want to know more details about the genetic algorithm used, check the report article and do not hesitate contact me.
