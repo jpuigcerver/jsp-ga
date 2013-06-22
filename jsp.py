@@ -7,16 +7,17 @@ from sys import argv
 
 # DEFAULT PARAMETERS
 SEED = 0
-PS = 50
-IT = 1000
+PS = 1000
+IT = 50
 CP = 1.0
 MP = 0.05
 
 class Instance:
+    """Class representing an instance of the JSP."""
     def __init__(self, jobs, m):
         self.jobs = jobs
-        self.n = len(jobs)
-        self.m = m
+        self.n = len(jobs) # number of jobs
+        self.m = m         # number of machines
 
     def __getitem__(self, i):
         return self.jobs[i]

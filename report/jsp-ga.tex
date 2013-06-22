@@ -96,10 +96,10 @@ $\theta_I$ & $\theta_{2,1}$ & $\theta_{1,1}$ & $\theta_{1,2}$ & $\theta_{2,2}$ &
 \label{tab:example_instance_sols}
 \end{table}
 
-The DAG can be reconstructed from a topological ordering, given the definition of the instance. The direct approach that is used in our algorithm does this step with a worst-case cost of $O(n^2 t^2) = O(|\mathcal{T}|^2)$. Some data structures can be used to reduce this time complexity.
+The DAG can be reconstructed from a topological ordering, given the definition of the instance. This is done in $O(n^2 \cdot t)$, which is the upper bound number of edges in the DAG.
 
 \subsection{Fitness function}
-Since our objective is to minimize the timespan of the job-shop scheduling, we use this function as the fitness function to minimize by the genetic algorithm. Once the DAG representing the solution is obtained, the computation of the fitness function can be done by computing the longest path from $\theta_I$ to $\theta_F$ in the DAG. This is done in $O(|E|)$ using a dynamic programming scheme, where $E$ is the set of edges in the solution DAG.
+Since our objective is to minimize the timespan of the job-shop scheduling, we use this function as the fitness function to minimize by the genetic algorithm. Once the DAG representing the solution is obtained, the computation of the fitness function can be done by computing the longest path from $\theta_I$ to $\theta_F$ in the DAG. This is done in $O(|E|)$ using a dynamic programming scheme, where $E$ is the set of edges in the solution DAG. In our implementation, the number of edges in the solution DAG is $O(n^2 \cdot t)$.
 
 \subsection{Crossover and mutation operations}
 The used crossover algorithm is a generalization of the order crossover operator (OX) and was presented in \cite{bierwirth1995generalized}. A random pair of individuals of the population at some iteration are merged with probability $P_c$ to form a new individual. The crossover operation uses a random segment of the first parent as an implant that will be inserted in a random position in the chromosome of the second parent. Once the new elements have been implanted into the vector, the old-duplicated elements are removed. In order to create two individuals from the two parents, first one of the parents is used to extract the implant and then, the other parent is used.\\
@@ -115,7 +115,7 @@ Figure \ref{fig:evol_m_diff} shows the evolution of $T_{ref} - T_{GA}$ for diffe
 
 Figure \ref{fig:evol_c_diff} shows the evolution of $T_{ref} - T_{GA}$ for different values of the crossover probability $P_m$. The mutation probability was set to 0.1 and the rest of parameters were set as before. Here it is shown that the impact of the crossover probability is very significant, achieving the best performance when $P_c = 1$.\\
 
-Figures \ref{fig:evol_pop_it_diff} and \ref{fig:evol_pop_it_worse} show the evolution of $T_{ref} - T_{GA}$ and $P(T_{GA} > T_{ref})$ for different values of the population size and number of iterations. This two functions are plot together because at some value of the $x$ coordinate, the expected number of generated individuals is the same in both scenarios. This expected number generated individuals is $O(P_c \cdot N \cdot I)$, where $N$ is the population size and $I$ is the number of iterations. In the experiment where the number of iterations was explored, the population size was set constant to 50, while when the explored variable was the population size, the number of iterations was 50. In both cases, the crossover probability was set to 0.5 and the mutation probability was set to 0.1. So, the cases where $Population = 500$ and $Iterations = 500$, the expected number of generated individuals is $0.5 \cdot 500 \cdot 50 = 12500$. These plots show that given a fixed number of expected individuals, it is better to have more iterations instead of a bigger population size. Notice that the confidence intervals for the $T_{ref} - T_{GA}$ curves do not overlap, so the differences are statistically significant (95\%). It is also shown that as we increase the value of these parameters, the quality of the obtained solution improves (and also the computation time required to obtain it).\\
+Figures \ref{fig:evol_pop_it_diff} and \ref{fig:evol_pop_it_worse} show the evolution of the average $T_{ref} - T_{GA}$ and $P(T_{GA} > T_{ref})$ for different values of the population size and number of iterations. This two functions are plot together because at some value of the $x$ coordinate, the expected number of generated individuals is the same in both scenarios. The expected number of generated individuals generated individuals grows with $O(P_c \cdot N \cdot I)$, where $N$ is the population size and $I$ is the number of iterations. In the experiment where the number of iterations was explored, the population size was set constant to 50, while when the explored variable was the population size, the number of iterations was 50. In both cases, the crossover probability was set to 0.5 and the mutation probability was set to 0.1. So, the cases where $Population = 500$ and $Iterations = 500$, the expected number of generated individuals is $0.5 \cdot 500 \cdot 50 = 12500$. These plots show that given a fixed number of expected individuals, it is usually slightly better to have a bigger population instead of more iterations. It is also shown that as we increase the value of these parameters, the quality of the obtained solution improves (and also the computation time required to obtain it).\\
 
 \begin{figure}[h]
 \centering
@@ -149,7 +149,7 @@ Figures \ref{fig:evol_pop_it_diff} and \ref{fig:evol_pop_it_worse} show the evol
 \caption{Performance of the GA for different parameters values.}
 \end{figure}
 
-A finally evaluation of the small and large instances was done using the values for each parameter shown in table \ref{tab:optimal_params}. $P_m$ was set to 0.05 instead of 0.1, because that 0.1 was obtained when $P_c$ was set to 0.5, and as we explained, the mutations are applied only on the children of the crossover operations, so, to maintain the ratio of mutated individuals, the mutation probability $P_m$ must be set to $0.05$.\\
+A final evaluation of the small and large instances was done using the values for each parameter shown in table \ref{tab:optimal_params}. $P_m$ was set to 0.05 instead of 0.1, because that 0.1 was obtained when $P_c$ was set to 0.5, and as we explained, the mutations are applied only on the children of the crossover operations, so, to maintain the ratio of mutated individuals, the mutation probability $P_m$ must be set to $0.05$.\\
 
 \begin{table}[h]
 \centering
@@ -157,8 +157,8 @@ A finally evaluation of the small and large instances was done using the values 
 \hline
 Parameter & Value \\
 \hline
-Population &  50\\
-Iterations & 1000\\
+Population &  1000 (Small), 6000 (Large)\\
+Iterations & 50\\
 $P_c$ & 1.0\\
 $P_m$ & 0.05\\
 \hline
@@ -175,8 +175,8 @@ Table \ref{tab:final_results} reports the results achieved using the previous co
 \hline
 Instances & $T_{ref} - T_{GA}$ & $P(T_{GA} > T_{ref})$\\
 \hline
-Small & $-0.1122 \pm 0.0420$ & 0.0233\\ 
-Large & & \\
+Small & $-0.0004 \pm 0.0004$ & 0.0004\\ 
+Large & $-68.8767 \pm 2.4166$ & 0.9244\\
 \hline
 \end{tabular}
 \caption{Final results for the small and large instances.}
@@ -184,9 +184,9 @@ Large & & \\
 \end{table}
 
 \section{Conclusions}
-We presented a simple and competitive genetic algorithm for the job-shop scheduling problem. The presented algorithm have shown to be slightly worse than the reference solutions that were provided, but this comparison is not fair since we don't know which parameters the reference solution used to control the amount of time invested in finding a solution.\\
+We presented a simple and competitive genetic algorithm for the job-shop scheduling problem. The presented algorithm have shown to be slightly worse than the reference solutions that were provided for the small instances and usually worse for the large instances, but this comparison is not fair since we don't know which parameters the reference solution used to control the amount of time invested in finding a solution (that is, population and iterations). Also, despite of our solution is usually worse, the difference with the reference solution is not very high, given that the average timespan of the reference solution for the large instances is 1959.97.\\
 
-The algorithm can be improved in several ways. As we explained before, the way we encode the solutions as individuals of the population (a topological ordering of the DAG) makes that multiple individuals of the population could represent the same solution (different topological orderings are possible for a given DAG). Also, we did not look too much at the speed factor. We used Python to program our solution, which is not the best option if one is focused on the speed. Several improvement can be done also on the implementation of some operations (crossover) and the construction of the DAG to compute the fitness function, apart from writing the genetic algorithm in compiled programming language.
+The algorithm can be improved in several ways. As we explained before, the way we encode the solutions as individuals of the population (a topological ordering of the DAG) makes that multiple individuals of the population could represent the same solution (different topological orderings are possible for a given DAG). Also, we did not look too much at the speed factor. We used Python to program our solution, which is not the best option if one is focused on the speed.
 
 \bibliographystyle{abbrv}
 \bibliography{jsp-ga}

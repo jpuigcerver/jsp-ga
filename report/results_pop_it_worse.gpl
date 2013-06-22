@@ -139,7 +139,6 @@ set lmargin  -1
 set bmargin  -1
 set rmargin  -1
 set tmargin  -1
-set locale "es_ES.UTF-8"
 set pm3d explicit at s
 set pm3d scansautomatic
 set pm3d interpolate 1,1 flush begin noftriangles nohidden3d corners2color mean
@@ -153,5 +152,5 @@ set fontpath
 set psdir
 set fit noerrorvariables
 #GNUTERM = "aqua"
-plot 'results_pop.dat' u 1:4 w l lc 1 t "Population", 'results_it.dat' u 1:4 w l lc 2 t "Iterations",
+plot 'results_pop.dat' u 1:4 w l lc 1 t "Population", 'results_it.dat' u 1:4 w l lc 2 t "Iterations"
 #    EOF

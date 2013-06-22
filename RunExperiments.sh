@@ -9,7 +9,7 @@ PS=50
 IT=1000
 CP=1.0
 MP=0.05
-PYTHON=/Applications/pypy/bin/pypy
+PYTHON=pypy
 
 function usage () {
     cat <<EOF
